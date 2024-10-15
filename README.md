@@ -1,3 +1,12 @@
-content:
-class ThreadFetchHandler, class Writer, class ProxyManager
-lstToStr, getRandElement,getRandWithRatio, getRand
+classes:
+
+  -ThreadFetchHandler
+  -Writer
+  -ProxyManager
+
+functions:
+
+  -lstToStr
+  -getRandElement
+  -getRandWithRatio
+  -getRand
