@@ -1,8 +1,27 @@
 import requests
 import random as rd
+from filelock import FileLock
+import time
+from functools import partial
+from concurrent.futures import ThreadPoolExecutor, wait
 
-__version__ = 'dev'
+__version__ = '0.1.0'
 myRequest = requests.Session()
+
+#takes list of processes and executes them
+def run_threads(processes,numProccesses=10):
+    with ThreadPoolExecutor(max_workers=numProccesses) as executor:
+        futures = [executor.submit(process) for process in processes]
+        done, not_done = wait(futures, timeout=0)
+        try:
+            while not_done:
+                freshly_done, not_done = wait(not_done, timeout=5)
+                done |= freshly_done
+        except KeyboardInterrupt:
+            print('cancelled shutdown future threads ...')
+            for future in not_done:
+                _ = future.cancel()
+            _ = wait(not_done, timeout=None)
 
 #handles multithreading shared variables
 class ThreadFetchHandler:
