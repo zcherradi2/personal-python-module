@@ -105,10 +105,10 @@ class ProxyManager:
             proxy = line.split(':')
             if len(proxy)==4:
                 ip,port,user,passwd = proxy
-                self.proxies.append(proxify(ip,port,user,passwd))
+                self.proxies.append(ProxyManager.proxify(ip,port,user,passwd))
             else:
                 ip,port = proxy
-                self.proxies.append(proxify(ip,port))
+                self.proxies.append(ProxyManager.proxify(ip,port))
         print(self.proxies)
         self.testProxies()
     def checkProxy(self,proxy):
@@ -144,3 +144,14 @@ class ProxyManager:
             proxies=proxy
         )
         return proxy['http'].split('@')[1].split(':')[0] == response.json()['ip']
+    @staticmethod
+    def proxify(ip,port,user='',passwd='',httpType='http'):
+        if user != '':
+            return {
+                    'http': f'{httpType}://{user}:{passwd}@{ip}:{port}',
+                    'https': f'{httpType}://{user}:{passwd}@{ip}:{port}'
+                    }
+        return {
+                    'http': f'{httpType}://@{ip}:{port}',
+                    'https': f'{httpType}://@{ip}:{port}'
+                }
