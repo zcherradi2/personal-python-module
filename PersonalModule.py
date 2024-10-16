@@ -1,5 +1,8 @@
-__version__ = 'dev'
+import requests
+import random as rd
 
+__version__ = 'dev'
+myRequest = requests.Session()
 
 #handles multithreading shared variables
 class ThreadFetchHandler:
