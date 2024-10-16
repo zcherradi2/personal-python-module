@@ -1,3 +1,6 @@
+__version__ = 'dev'
+
+
 #handles multithreading shared variables
 class ThreadFetchHandler:
     def __init__(self,initVal,fetcher) -> None:
